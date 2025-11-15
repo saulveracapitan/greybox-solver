@@ -10,32 +10,32 @@ const Index = () => {
         {/* Título principal */}
         <div className="space-y-4">
           <h1 className="text-5xl md:text-7xl font-bold text-primary tracking-wider">
-            EL ÚLTIMO CASO
+            CLUEDO
           </h1>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-            DE LA CAJA GREY
+            EL JUEGO DE DEDUCCIÓN
           </h2>
           <div className="h-1 w-32 bg-primary mx-auto"></div>
         </div>
 
         {/* Descripción */}
         <p className="text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          Un juego de escape cooperativo digital. 8-12 jugadores. 90 minutos.
+          El clásico juego de deducción. 2-12 jugadores.
           <br />
-          <span className="text-accent">¿Podréis resolver el misterio?</span>
+          <span className="text-accent">¿Podrás descubrir quién, con qué y dónde?</span>
         </p>
 
         {/* Botones de acción */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
           <Button
-            onClick={() => navigate("/create")}
+            onClick={() => navigate("/cluedo-traditional/create")}
             size="lg"
             className="text-lg px-8 py-6 bg-primary hover:bg-primary/90"
           >
             CREAR PARTIDA
           </Button>
           <Button
-            onClick={() => navigate("/join")}
+            onClick={() => navigate("/cluedo-traditional/join")}
             size="lg"
             variant="outline"
             className="text-lg px-8 py-6 border-2 border-primary text-primary hover:bg-primary/10"
@@ -47,24 +47,17 @@ const Index = () => {
         {/* Información adicional */}
         <div className="pt-12 grid grid-cols-3 gap-4 max-w-lg mx-auto">
           <div className="space-y-2">
-            <div className="text-2xl font-bold text-primary">8-12</div>
+            <div className="text-2xl font-bold text-primary">2-12</div>
             <div className="text-sm text-muted-foreground">JUGADORES</div>
           </div>
           <div className="space-y-2">
-            <div className="text-2xl font-bold text-primary">90</div>
-            <div className="text-sm text-muted-foreground">MINUTOS</div>
+            <div className="text-2xl font-bold text-primary">27</div>
+            <div className="text-sm text-muted-foreground">CARTAS</div>
           </div>
           <div className="space-y-2">
-            <div className="text-2xl font-bold text-primary">4</div>
-            <div className="text-sm text-muted-foreground">FASES</div>
+            <div className="text-2xl font-bold text-primary">TURNOS</div>
+            <div className="text-sm text-muted-foreground">POR RONDAS</div>
           </div>
-        </div>
-
-        {/* Nota sobre la caja física */}
-        <div className="pt-8">
-          <p className="text-sm text-muted-foreground italic">
-            * Requiere una caja física con candado numérico de 4 dígitos
-          </p>
         </div>
       </div>
     </div>

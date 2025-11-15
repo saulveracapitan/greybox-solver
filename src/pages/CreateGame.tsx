@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { getRandomCase } from "@/lib/gameCases";
 
 const CreateGame = () => {
   const [hostName, setHostName] = useState("");
@@ -34,13 +35,22 @@ const CreateGame = () => {
     try {
       const gameCode = generateGameCode();
       
-      // Crear la sesión de juego
+      // Asignar un caso aleatorio
+      const selectedCase = getRandomCase();
+      
+      // Crear la sesión de juego con el caso asignado
       const { data: gameSession, error: gameError } = await supabase
         .from("game_sessions")
         .insert({
           code: gameCode,
           status: "LOBBY",
           current_phase: 0,
+          data: {
+            caseId: selectedCase.id,
+            caseName: selectedCase.name,
+            victim: selectedCase.victim,
+            location: selectedCase.location,
+          },
         })
         .select()
         .single();
@@ -76,9 +86,28 @@ const CreateGame = () => {
 
       // Redirigir al lobby
       navigate(`/lobby/${gameSession.id}?playerId=${player.id}`);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating game:", error);
-      toast.error("Error al crear la partida");
+      
+      // Mostrar error específico
+      const errorMessage = error?.message || error?.error_description || "Error desconocido";
+      console.error("Detalles del error:", {
+        message: errorMessage,
+        code: error?.code,
+        details: error?.details,
+        hint: error?.hint,
+      });
+      
+      // Mensajes de error más específicos
+      if (error?.code === 'PGRST116') {
+        toast.error("Las tablas no existen. Ejecuta el SQL en Supabase primero.");
+      } else if (error?.message?.includes('column "data"')) {
+        toast.error("El campo 'data' no existe en game_sessions. Ejecuta la migración.");
+      } else if (error?.message?.includes('relation') || error?.message?.includes('does not exist')) {
+        toast.error("Las tablas no existen. Verifica que ejecutaste el SQL en Supabase.");
+      } else {
+        toast.error(`Error al crear la partida: ${errorMessage}`);
+      }
     } finally {
       setLoading(false);
     }
